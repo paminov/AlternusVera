@@ -44,10 +44,6 @@ class FrequencyHeuristicFeature(BaseFeature):
         self.tfidf.fit_transform(self.train['headline_text'])
         self.X_train, self.y_train = self.__vectorize(self.train)
 
-    def __clense_data(self, df):
-        indecies = df[(df['tweet_count']==0)&(df['source_list_cnt']==0)].index
-        df.drop(indecies , inplace=True)
-
     @staticmethod
     def __text_preprocess(df):
         #convert to lower case

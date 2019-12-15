@@ -4,6 +4,8 @@ import os
 import pandas as pd
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
 
 
 class BaseFeature(object):
@@ -26,13 +28,6 @@ class BaseFeature(object):
     def __clense_data(self, df):
         indecies = df[(df['tweet_count']==0)&(df['source_list_cnt']==0)].index
         df.drop(indecies , inplace=True)
-
-    def __vectorize(self, df):
-        x_text = self.tfidf.transform(df['headline_text'])
-        x_val = df.drop(['label_id','headline_text'], axis=1).values
-        x = sparse.hstack([x_val, x_text]).tocsr()
-        y = self.train['label_id'].values
-        return x, y
 
     def _pickle_model(self, model):
         with open(self.model_pickle, 'wb') as file:
