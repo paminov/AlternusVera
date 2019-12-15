@@ -17,7 +17,9 @@ class FrequencyHeuristicFeature(BaseFeature):
     labels = ['original', 'pants-fire', 'false', 'barely-true',
               'half-true', 'mostly-true', 'true']
 
-    def __init__(self):
+    def __init__(self, datasets=None):
+        if datasets:
+            self.__datasets = datasets
         super().__init__("freq_heuristics.pickle")
         self.__load_datasets()
 
