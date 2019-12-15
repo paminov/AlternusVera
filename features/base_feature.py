@@ -25,7 +25,7 @@ class BaseFeature(object):
         downloaded.GetContentFile(file_name)
         return pd.read_csv(file_name)
 
-    def __clense_data(self, df):
+    def _clense_data(self, df):
         indecies = df[(df['tweet_count']==0)&(df['source_list_cnt']==0)].index
         df.drop(indecies , inplace=True)
 

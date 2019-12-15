@@ -28,7 +28,7 @@ class FrequencyHeuristicFeature(BaseFeature):
         test = super()._load_dataset_from_gdrive(*self.__datasets['test'])
         valid = super()._load_dataset_from_gdrive(*self.__datasets['valid'])
         for df in [train, test, valid]:
-            self.__clense_data(df)
+            self._clense_data(df)
             label_ids = []
             for i in df.label:
                 label_ids.append(self.labels.index(i))
