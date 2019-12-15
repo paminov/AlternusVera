@@ -11,9 +11,9 @@ from .utils import *
 class SocialCredibilityFeature(BaseFeature):
 
     __datasets = {
-                'train': ('1abxSFhl5fSPJg1h3dg2ZXKM6IqElYrhC', 'train_tweets.csv'),
-                'test': ('1GRf4Zxm0AT4ElZj2SrXwdx0qAb9eAAon', 'test_tweets.csv'),
-                'valid': ('1ZK0qkUtyHrfa7Vaq9MNb_Dsw4INPvKPr', 'valid_tweets.csv')
+                'train': ('1EZ1jrYSFagyZ6ltkiGAklm5enqijojjH', 'train_news_with_tweets.csv'),
+                'test': ('1vt0xnaKwvUmRoeriAmlprdweumgxnz-6', 'test_news_with_tweets.csv'),
+                'valid': ('19cpmTufNyqVTBaGdgrajrlB3wN5tvCih', 'valid_news_with_tweets.csv')
             }
     labels = ['original','true','mostly-true','half-true',
               'barely-true','false','pants-fire']
