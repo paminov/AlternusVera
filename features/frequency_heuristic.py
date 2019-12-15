@@ -1,16 +1,14 @@
 '''Frequency Heuristic Feature class deifnition'''
-from google.colab import auth
-from oauth2client.client import GoogleCredentials
+from .base_feature import BaseFeature
 import pandas as pd
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
 from scipy import sparse
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from .utils import *
 
 
-class FrequencyHeuristicFeature(object):
+class FrequencyHeuristicFeature(BaseFeature):
+
     __datasets = {
                 'train': ('1-0cMe3FdhCjPeynHb-0emu7ZVEiARcGo', 'train_tweets.csv'),
                 'test': ('1--avSX9A4E0BGxwGpcVGdud9f1FhaCx5', 'test_tweets.csv'),
@@ -20,26 +18,13 @@ class FrequencyHeuristicFeature(object):
               'half-true', 'mostly-true', 'true']
 
     def __init__(self):
-        nltk.download('punkt')
-        nltk.download('stopwords')
-        nltk.download('wordnet')
-        auth.authenticate_user()
-        gauth = GoogleAuth()
-        gauth.credentials = GoogleCredentials.get_application_default()
-        self.drive = GoogleDrive(gauth)
+        super().__init__("freq_heuristics.pickle")
         self.__load_datasets()
-        self.stop_words = None
-        self.headline_words = None
-
-    def __load_dataset_from_gdrive(self, file_id, file_name):
-        downloaded = self.drive.CreateFile({'id':file_id})
-        downloaded.GetContentFile(file_name)
-        return pd.read_csv(file_name)
 
     def __load_datasets(self):
-        train = self.__load_dataset_from_gdrive(*self.__datasets['train'])
-        test = self.__load_dataset_from_gdrive(*self.__datasets['test'])
-        valid = self.__load_dataset_from_gdrive(*self.__datasets['valid'])
+        train = super()._load_dataset_from_gdrive(*self.__datasets['train'])
+        test = super()._load_dataset_from_gdrive(*self.__datasets['test'])
+        valid = super()._load_dataset_from_gdrive(*self.__datasets['valid'])
         for df in [train, test, valid]:
             self.__clense_data(df)
             label_ids = []
@@ -74,7 +59,7 @@ class FrequencyHeuristicFeature(object):
         #remove punctuation
         df['headline_text'] = df['headline_text'].apply(remove_punctuation)
         #remove less than 3 letter words
-        df['headline_text']    = df.headline_text.apply(lambda i: ' '.join(filter(lambda j: len(j) > 3, i.split())))
+        df['headline_text'] = df.headline_text.apply(lambda i: ' '.join(filter(lambda j: len(j) > 3, i.split())))
         return df[['headline_text', 'label_id', 'tweet_count', 'source_list_cnt']]
 
     def __vectorize(self, df):
@@ -84,13 +69,9 @@ class FrequencyHeuristicFeature(object):
         y = self.train['label_id'].values
         return x, y
 
-    def __train_multinomial_bayes(self):
-        nb = MultinomialNB()
-        nb.fit(self.X_train, self.y_train)
-        return nb
-
-    def predict(self, headline_text, tweet_count, source_list_count, return_int=False):
-        model = self.__train_multinomial_bayes()
+    def predict(self, headline_text,
+                tweet_count, source_list_count, return_int=False):
+        model = self._train_multinomial_bayes()
         df = pd.DataFrame(data={"headline_text": [headline_text],
                                 "label_id": [-1],
                                 "tweet_count": [tweet_count],
