@@ -13,7 +13,8 @@ class SocialMediaActivitiesFeature(BaseFeature):
            'test': ('1GFFIpbwqv7R-eRRhqcKpcMXryzfZMeEt', 'test_tweets_social_posts.csv.csv'),
            'valid': ('1--v0c1uOblbBcB6XVtwf7T5GZxEWjONd', 'valid_tweets_social_posts.csv.csv')
         }
-
+    labels = ['mostly-false', 'pants-fire', 'false', 'barely-true',
+            'half-true', 'mostly-true', 'true']
     def __init__(self, datasets=None):
         nltk.download('punkt')
         nltk.download('wordnet')
@@ -59,7 +60,8 @@ class SocialMediaActivitiesFeature(BaseFeature):
         self.X_train, self.y_train = self.__prepare_x_y(self.train)
         return self._train_decision_tree()
 
-    def predict(self, favourite_count, retweet_count, tweet_text):
+     def predict(self, favourite_count,
+                retweet_count, tweet_text, return_int=False):
         model = self.__train_model()
         df = pd.DataFrame(data={"label": [None],
                           "favourite_count": [favourite_count],
@@ -67,4 +69,6 @@ class SocialMediaActivitiesFeature(BaseFeature):
                           "tweet_text": [tweet_text]})
         X, y = self.__prepare_x_y(df)
         prediction = model.predict(X)
+		if return_int:
+            return self.labels.index(prediction[0])/float(len(self.labels)-1
         return prediction[0]
