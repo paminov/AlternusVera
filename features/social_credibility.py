@@ -15,8 +15,7 @@ class SocialCredibilityFeature(BaseFeature):
                 'test': ('1vt0xnaKwvUmRoeriAmlprdweumgxnz-6', 'test_news_with_tweets.csv'),
                 'valid': ('19cpmTufNyqVTBaGdgrajrlB3wN5tvCih', 'valid_news_with_tweets.csv')
             }
-    labels = ['original','true','mostly-true','half-true',
-              'barely-true','false','pants-fire']
+    labels = ['true', 'mostly-true', 'half-true', 'barely-true', 'mostly-false', 'false', 'pants-fire']
 
     def __init__(self, datasets=None):
         if datasets:
