@@ -85,7 +85,7 @@ class SocialCredibilityFeature(BaseFeature):
         y = self.train['label_id'].values
         return x, y
 
-    def predict(self, speaker_name, followers_count, friends_count):
+    def predict(self, speaker_name, followers_count, friends_count, return_int=False):
         model = self._train_multinomial_bayes()
         df = pd.DataFrame(data={"label": ["false"],
                           "speaker": [speaker_name],
@@ -94,4 +94,6 @@ class SocialCredibilityFeature(BaseFeature):
         df = self.__text_preprocess(df)
         X, y = self.__vectorize(df)
         prediction = model.predict(X)
+        if return_int:
+            return prediction[0]/float(len(self.labels)-1)
         return self.labels[prediction[0]]
