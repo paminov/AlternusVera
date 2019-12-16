@@ -29,13 +29,13 @@ class ReliableSourceFeature(BaseFeature):
             for i in df.label:
                 label_ids.append(self.labels.index(i))
             df.insert(1, "label_id", label_ids)
-        self.train = self.__text_preprocess(train).dropna()
-        self.test = self.__text_preprocess(test).dropna()
+        self.train = self.__text_preprocess(train.dropna())
+        self.test = self.__text_preprocess(test.dropna())
         self.tfidf = TfidfVectorizer(min_df=3, max_features=None,
-                                                                 strip_accents='unicode',
-                                                                 analyzer='word', token_pattern=r'\w{1,}',
-                                                                 ngram_range=(1,5), use_idf=1,
-                                                                 smooth_idf=1, sublinear_tf=1)
+                                     strip_accents='unicode',
+                                     analyzer='word', token_pattern=r'\w{1,}',
+                                     ngram_range=(1,5), use_idf=1,
+                                     smooth_idf=1, sublinear_tf=1)
         self.tfidf.fit_transform(self.train['headline_text'])
         self.tfidf.fit_transform(self.train['context'])
         self.tfidf.fit_transform(self.train['source'])
