@@ -12,8 +12,7 @@ class ReliableSourceFeature(BaseFeature):
     __datasets = {
         'train': ('1JZ4xVfDofvxlu-y0O3vAATujIyAUTduv', 'train_news_sources.csv'),
         'test': ('15Ls7ZLpbpmus8sq6RIHK2G9TbHVRZsuS', 'test_news_sources.csv') }
-    labels = ['original','true','mostly-true','half-true',
-              'barely-true','false','pants-fire']
+    labels = ['true', 'mostly-true', 'half-true', 'barely-true', 'mostly-false', 'false', 'pants-fire']
 
     def __init__(self, datasets=None):
         if datasets:
