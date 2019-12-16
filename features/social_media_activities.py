@@ -3,7 +3,6 @@ from .base_feature import BaseFeature
 import nltk
 import nltk.sentiment
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier, plot_tree
 
 
 class SocialMediaActivitiesFeature(BaseFeature):
@@ -58,9 +57,9 @@ class SocialMediaActivitiesFeature(BaseFeature):
 
     def __train_model(self):
         self.X_train, self.y_train = self.__prepare_x_y(self.train)
-        return self._train_decision_tree()
+        return self._train_gaussian_nb()
 
-     def predict(self, favourite_count,
+    def predict(self, favourite_count,
                 retweet_count, tweet_text, return_int=False):
         model = self.__train_model()
         df = pd.DataFrame(data={"label": [None],
@@ -69,6 +68,6 @@ class SocialMediaActivitiesFeature(BaseFeature):
                           "tweet_text": [tweet_text]})
         X, y = self.__prepare_x_y(df)
         prediction = model.predict(X)
-		if return_int:
-            return self.labels.index(prediction[0])/float(len(self.labels)-1
+        if return_int:
+            return self.labels.index(prediction[0])/float(len(self.labels)-1)
         return prediction[0]

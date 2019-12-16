@@ -5,7 +5,7 @@ import pandas as pd
 import pickle
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -47,6 +47,14 @@ class BaseFeature(object):
         nb = self._load_pickle()
         if not nb:
             nb = MultinomialNB()
+            nb.fit(self.X_train, self.y_train)
+            self._pickle_model(nb)
+        return nb
+
+    def _train_gaussian_nb(self):
+        nb = self._load_pickle()
+        if not nb:
+            nb = GaussianNB()
             nb.fit(self.X_train, self.y_train)
             self._pickle_model(nb)
         return nb
