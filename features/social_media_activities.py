@@ -12,8 +12,7 @@ class SocialMediaActivitiesFeature(BaseFeature):
            'test': ('1GFFIpbwqv7R-eRRhqcKpcMXryzfZMeEt', 'test_tweets_social_posts.csv.csv'),
            'valid': ('1--v0c1uOblbBcB6XVtwf7T5GZxEWjONd', 'valid_tweets_social_posts.csv.csv')
         }
-    labels = ['pants-fire', 'mostly-false', 'false', 'barely-true',
-            'half-true', 'mostly-true', 'true']
+    labels = ['true', 'mostly-true', 'half-true', 'barely-true', 'mostly-false', 'false', 'pants-fire']
     def __init__(self, datasets=None):
         nltk.download('punkt')
         nltk.download('wordnet')
