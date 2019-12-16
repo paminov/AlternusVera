@@ -77,7 +77,7 @@ class ReliableSourceFeature(BaseFeature):
         y = self.train['label_id'].values
         return x, y
 
-    def predict(self, headline_text, context, source):
+    def predict(self, headline_text, context, source, return_int=False):
         model = self._train_multinomial_bayes()
         df = pd.DataFrame(data={"headline_text": [headline_text],
                                                         "label_id": [-1],
@@ -86,4 +86,6 @@ class ReliableSourceFeature(BaseFeature):
         df = self.__text_preprocess(df)
         x, y = self.__vectorize(df)
         prediction = model.predict(x)
+        if return_int:
+            return prediction[0]/float(len(self.labels)-1)
         return self.labels[prediction[0]]
