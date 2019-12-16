@@ -14,8 +14,8 @@ class FrequencyHeuristicFeature(BaseFeature):
                 'test': ('1--avSX9A4E0BGxwGpcVGdud9f1FhaCx5', 'test_tweets.csv'),
                 'valid': ('1--EX1lqaoNjEVLoaBIaTc3Q_17TymK11', 'valid_tweets.csv')
             }
-    labels = ['original', 'pants-fire', 'false', 'barely-true',
-              'half-true', 'mostly-true', 'true']
+    labels = ['true', 'mostly-true', 'half-true', 'barely-true',
+              'mostly-false', 'false', 'pants-fire']
 
     def __init__(self, datasets=None):
         if datasets:
