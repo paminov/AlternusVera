@@ -28,9 +28,9 @@ class SocialCredibilityFeature(BaseFeature):
         train = super()._load_dataset_from_gdrive(*self.__datasets['train'])
         test = super()._load_dataset_from_gdrive(*self.__datasets['test'])
         valid = super()._load_dataset_from_gdrive(*self.__datasets['valid'])
-        train = train[np.isfinite(train['followers_count'])]
-        test = test[np.isfinite(test['followers_count'])]
-        valid = valid[np.isfinite(valid['followers_count'])]
+        train = self.__clense_data(train)
+        test = self.__clense_data(test)
+        valid = self.__clense_data(valid)
         self.train = self.__text_preprocess(train).dropna(how='any',axis=0)
         self.test = self.__text_preprocess(test).dropna(how='any',axis=0)
         self.valid = self.__text_preprocess(valid).dropna(how='any',axis=0)
@@ -41,6 +41,12 @@ class SocialCredibilityFeature(BaseFeature):
                                      smooth_idf=1, sublinear_tf=1)
         self.tfidf.fit_transform(self.train['speaker'])
         self.X_train, self.y_train = self.__vectorize(self.train)
+
+    def __clense_data(self, df):
+        df = df[np.isfinite(df['followers_count'])]
+        indecies = df[(df['followers_count']==0)].index
+        df.drop(indecies , inplace=True)
+        return df.dropna()
 
     def __text_preprocess(self, df):
         #convert to lower case
