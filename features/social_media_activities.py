@@ -9,11 +9,11 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 class SocialMediaActivitiesFeature(BaseFeature):
 
     __datasets = {
-           'train': ('1J6hwbgmj3fq-QW3tc3ZCd-j5CnZDt_Kj', 'train_tweets_social_posts.csv'),
+           'train': ('12HZeJfwd3B4ayHX380mkf_pWsGbvRYbb', 'pf_news_tweets.csv'),
            'test': ('1GFFIpbwqv7R-eRRhqcKpcMXryzfZMeEt', 'test_tweets_social_posts.csv.csv'),
            'valid': ('1--v0c1uOblbBcB6XVtwf7T5GZxEWjONd', 'valid_tweets_social_posts.csv.csv')
         }
-    labels = ['mostly-false', 'pants-fire', 'false', 'barely-true',
+    labels = ['pants-fire', 'mostly-false', 'false', 'barely-true',
             'half-true', 'mostly-true', 'true']
     def __init__(self, datasets=None):
         nltk.download('punkt')
